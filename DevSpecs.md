@@ -3,7 +3,7 @@
 This file captures the owner's reusable, project-agnostic development
 principles. Every project that declares conformity to **DevSpecs** must follow
 every section below. Project-specific refinements and additional constraints
-belong in a separate `AdditionalSpecs.md` at the project root.
+belong in a separate `AdditionalSpecs.md` at the project root. Also at the project root is an `AGENT.md` that defines the order of instruction reading. 
 
 ---
 
@@ -41,7 +41,7 @@ Every stateful managed object progresses through a well-defined set of
 lifecycle states.
 
 - Lifecycle states and their valid transitions must be documented per project
-  in `AdditionalSpecs.md`.
+  in `AdditionalSpecs.md`, located directly under Project root.
 - Transitions must be explicit, validated, and logged.
 - Bootstrapping operations must produce a fully initialised object or fail
   explicitly — partial success is not acceptable.
@@ -59,6 +59,8 @@ Package versions follow `YYYY.XX` calendar versioning.
 - The authoritative version is kept in the project's packaging manifest
   (e.g. `pyproject.toml`); CI increments it automatically on every push or
   merge to the main branch.
+
+  Versioning must be integrated in CI for push, merge and pull request. It requires a direct push by an agent. For that a `PAT (Private Access Token)` must be configurated over the `GitProvider` platform
 
 ## Python Environment and Package Management
 
@@ -147,14 +149,14 @@ Every project must ship end-user documentation alongside the source code.
   repository.
 - The documentation format is LaTeX; the LaTeX project must be self-contained
   and buildable in isolation.
-- Every `docs/` directory must contain at least two documents:
+- Every `docs/` (or `Doc$ProjectName`) directory must contain at least two documents:
   - **Getting Started** — explains the main workflow step by step, from
     installation through first successful use.
   - **User Guide** — fully documents every user-facing (client API) feature,
     command, and configuration option. Internal implementation details are
     explicitly out of scope.
 - The structure, style, and conventions for the `docs/` LaTeX project are
-  defined in `docs/DocSpecs.md` (project-agnostic) together with any
-  project-specific additions in `AdditionalSpecs.md`.
+  defined in `docs/DocSpec/DocSpecs.md` (project-agnostic) together with any
+  project-specific additions in `./AdditionalSpecs.md`. This information is accessible through `docs/AGENT.md`.
 - Documentation must be updated in the same PR as the code change that
   introduces or modifies a user-facing feature.
