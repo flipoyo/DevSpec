@@ -3,5 +3,5 @@
 # synced back here. This is a second line of defense in case a contributor
 # ever runs project tooling from inside a ./DevSpec/ submodule checkout by
 # mistake.
-AgentSpecs/
+AgentSpec/
 *_DevPlanTicket.md

@@ -6,15 +6,15 @@ This file captures the owner's reusable, project-agnostic development
 principles. Every project that declares conformity to **DevSpecs** must follow
 every section below. Project-specific refinements and additional constraints
 belong in a separate `AdditionalSpecs.md`, kept together with this project's
-other deeper spec/authoring references in an `AgentSpecs/` directory at the
+other deeper spec/authoring references in an `AgentSpec/` directory at the
 project root (see *Planning* below for the full layout). A minimal `AGENT.md`
 also lives at the project root itself; its only job is to state the reading
 order for an agent onboarding to the project — e.g. the project's own
-command/build-and-test reference first, then `AgentSpecs/` for everything
+command/build-and-test reference first, then `AgentSpec/` for everything
 else. Keeping it minimal avoids duplicating content that belongs in
-`AgentSpecs/AGENT.md` (the parallel-agent orchestration roster, see
-*Planning*), `AgentSpecs/AdditionalSpecs.md` (architecture and
-project-specific technical rules), or `AgentSpecs/audit.md` (audit
+`AgentSpec/AGENT.md` (the parallel-agent orchestration roster, see
+*Planning*), `AgentSpec/AdditionalSpecs.md` (architecture and
+project-specific technical rules), or `AgentSpec/audit.md` (audit
 findings, legacy references, and open decisions/risks).
 
 ---
@@ -53,7 +53,7 @@ Every stateful managed object progresses through a well-defined set of
 lifecycle states.
 
 - Lifecycle states and their valid transitions must be documented per project
-  in `AgentSpecs/AdditionalSpecs.md`.
+  in `AgentSpec/AdditionalSpecs.md`.
 - Transitions must be explicit, validated, and logged.
 - Bootstrapping operations must produce a fully initialised object or fail
   explicitly — partial success is not acceptable.
@@ -144,27 +144,27 @@ Logging is mandatory and first-class.
 Planning documents follow a defined lifecycle so that history is preserved and
 active plans are always easy to identify.
 
-- **Active plan**: planning tickets live in an `AgentSpecs/` directory at the
+- **Active plan**: planning tickets live in an `AgentSpec/` directory at the
   project root — one file per initiative (e.g. `<Name>_DevPlanTicket.md`),
   not a single pair overwritten on every re-plan. The project's own deeper
   spec/authoring references (an `AdditionalSpecs.md`, an `audit.md`, an
   `AGENT.md`) live in the same directory.
 - **Archival**: once a ticket is complete, it moves to
-  `AgentSpecs/archive/<YYYYMMDD>_<name>.md`. The archive-date filename prefix
+  `AgentSpec/archive/<YYYYMMDD>_<name>.md`. The archive-date filename prefix
   stands in for an in-body timestamp, so an already-archived ticket does not
   also carry a `Created:` line. Developers decide which archived files to
   keep on explicit request.
 - No planning document is ever hand-edited during an active implementation
   run; it is treated as read-only once the agent starts executing it.
-- **Locality**: `AgentSpecs/` (active and archived alike) is local to the
+- **Locality**: `AgentSpec/` (active and archived alike) is local to the
   consuming project's own repository. It is never part of the shared
   `DevSpec` repository this file ships from — a project's planning history
   is project-specific, and syncing it back into `DevSpec` would leak one
   project's tickets into every other project that consumes `DevSpecs.md`.
-  A project that mounts `DevSpec` as a submodule keeps `AgentSpecs/` as an
+  A project that mounts `DevSpec` as a submodule keeps `AgentSpec/` as an
   ordinary tracked directory of its own, outside the submodule boundary;
   `DevSpec`'s own `.gitignore` should still exclude ticket-shaped paths
-  (`AgentSpecs/`, `*_DevPlanTicket.md`) as a second line of defense against
+  (`AgentSpec/`, `*_DevPlanTicket.md`) as a second line of defense against
   one getting staged inside the submodule checkout by mistake.
 
 ## Document Conventions
@@ -197,7 +197,7 @@ Every project must ship end-user documentation alongside the source code.
     explicitly out of scope.
 - The structure, style, and conventions for the `docs/` LaTeX project are
   defined in `docs/DocSpec/DocSpecs.md` (project-agnostic) together with any
-  project-specific additions in `AgentSpecs/AdditionalSpecs.md`. This
+  project-specific additions in `AgentSpec/AdditionalSpecs.md`. This
   information is accessible through `docs/AGENT.md`.
 - Documentation must be updated in the same PR as the code change that
   introduces or modifies a user-facing feature.
