@@ -14,6 +14,4 @@ Using this Specs file accross projects should improve the interoperability of pr
 - **`DOCSTYLE.md`** — the house rule for how any Markdown document in a
   conforming project is written (abstract-first, a mermaid graph, audience
   separation).
-- **`AdditionalSpecs.md`** — a blank skeleton (section headers only) for a
-  new project's own `AgentSpec/AdditionalSpecs.md`, so it starts from a
-  checklist instead of a blank page.
+
