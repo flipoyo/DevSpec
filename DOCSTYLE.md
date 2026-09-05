@@ -119,6 +119,28 @@ not apply to inline code comments, commit messages, or planning tickets
 under `AgentSpec/` — those are written for someone already holding the
 code or the task in front of them.
 
+**The report you write when you finish a task follows the same rule, at
+the strictest level.** This is the summary a developer or an agent writes
+back at the end of a piece of work. The reader has just been away from the
+task. They should not have to re-read a sentence, decode a shorthand, or
+reconstruct the story from clues.
+
+Say four things, in this order:
+
+1. **What works now.** State it plainly. Do not hedge, and do not bury it
+   under how it was built.
+2. **What changed.** Name the files and commands. "`install.cgs` now names
+   `.claude`" beats "the third mount entry was corrected".
+3. **What is not done, or broke.** Say so directly, including anything you
+   skipped and why.
+4. **What the reader must decide or do next.** One list. If nothing is
+   needed from them, say that too.
+
+Name a thing before using it. Write `restart_tree`, the function behind
+`cgitsync pull`, not `restart_tree` alone. Prefer one idea per sentence.
+Cut a clause rather than joining it with a dash. A table is for comparing
+things, not for hiding prose that was too tangled to write out.
+
 ## 6. No stale-by-design content
 
 Never write "Recent improvements (December 2024)" or any dated block that rots.
