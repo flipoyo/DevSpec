@@ -143,7 +143,18 @@ Logging is mandatory and first-class.
 - Tests must not depend on network access, live external services, or
   environment-specific state unless the test is explicitly labelled as an
   integration test.
-- The full suite must pass before any merge to the main branch.
+- The full suite must pass before any merge to the main branch, and before
+  any task is considered closed — not only before a merge. A task that ends
+  with a failing or untried suite is not finished, whatever else it did.
+- **A green suite is necessary but not sufficient.** When a project manages
+  its own working tree through a dedicated tool (the project dogfooding
+  itself, a build system checking its own state, and similar), closing a
+  task also means running that tool's own status/health command and
+  confirming it reports no errors — a passing test suite proves the code
+  works in isolation; it does not prove the tool the project actually runs
+  is left in a state it can describe cleanly. A tool that can pass its own
+  tests while leaving a real, tracked instance of itself broken has not
+  finished the job either.
 
 ## Planning
 
