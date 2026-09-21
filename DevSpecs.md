@@ -68,23 +68,38 @@ lifecycle states.
 
 ## Versioning
 
-Package versions follow `YYYY.XX` calendar versioning.
+The authoritative version is kept in the project's packaging manifest
+(e.g. `pyproject.toml`). Two schemes are both conforming — `YYYY.XX`
+calendar versioning (`XX` incrementing 01 → 99 per year, then `YYYY`
+incrementing and `XX` resetting to `01`, e.g. `0000.99 → 0001.01`) and real
+SemVer (`MAJOR.MINOR.PATCH`) against a stated public-interface contract —
+and a project states in its own `AdditionalSpecs.md` which one it follows
+and why. A project publishing a package under a stability promise (a
+`MAJOR` bump means a break, a `MINOR` bump is additive-only) wants SemVer;
+a project with no such promise, or one still finding its interface, may
+prefer the calendar scheme's simplicity.
 
-- The very first release of a project starts at `0000.01`.
-- Subsequent releases increment `XX` (01 → 02 → … → 99).
-- When `XX` reaches 99, `YYYY` increments and `XX` resets to `01`
-  (e.g. `0000.99 → 0001.01`).
-- The authoritative version is kept in the project's packaging manifest
-  (e.g. `pyproject.toml`); CI increments it automatically on every push or
-  merge to the main branch.
-- Projects that also mirror the version into other manifests/docs (e.g. a
-  `pixi.toml` workspace version, a package `__version__`, a README heading)
-  should provide a single dev command that bumps the reference manifest and
-  syncs the rest in one step, rather than editing each file by hand.
-- Versioning is integrated into CI for pushes, merges, and pull requests to
-  the main branch; the increment commit requires a direct push by an agent,
-  which needs a `PAT` (Personal/Private Access Token) configured on the
-  Git-hosting platform.
+Projects that also mirror the version into other manifests/docs (e.g. a
+`pixi.toml` workspace version, a package `__version__`, a README heading)
+should provide a single dev command that bumps the reference manifest and
+syncs the rest in one step, rather than editing each file by hand, all
+targets or none — a bump that reaches half its targets leaves the package
+claiming a release its documentation never heard of.
+
+**A version bump is a judgement call, not a mechanical one — CI verifies,
+it does not decide.** [AgentConduct.md](AgentConduct.md) §1.3 states this
+as part of the general before-committing shape: deciding a release is due,
+and what kind, needs a reader who can tell "a flag was renamed" from "a
+flag was added," which is exactly what a diff cannot say on its own. CI
+running with write credentials and a standing `PAT` to push its own
+version-bump commits is one way to automate the *mechanical* half of this
+— syncing a value across files — but it is the wrong place to make the
+*judgement* half, and a project is not conforming merely because it has
+automated the bump; it is conforming because a reader made the call. A
+project that also tracks a separate, purely mechanical build or change
+counter (one that advances with every change, not only a release) may let
+that counter advance without a reader's judgement, precisely because it
+carries no promise a diff could get wrong.
 
 ## Python Environment and Package Management
 
