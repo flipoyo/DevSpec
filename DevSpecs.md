@@ -8,11 +8,14 @@ every section below. Project-specific refinements and additional constraints
 belong in a separate `AdditionalSpecs.md`, kept together with this project's
 own agent roster (`AGENT.md`) and audit findings (`audit.md`) in a
 `.localSpec/` mount at the project root — one repository, one branch per
-project (see *Planning* below for the full layout). This file, alongside
-`DOCSTYLE.md` and a generic `AGENT.md` template, ships from the `DevSpec`
-repository, mounted at `.agentSpec/DevSpec/`: the same shared repository, on
-its `main` branch, in every conforming project. `.agentSpec` is the shell
-around it and carries `TICKETLIFECYCLE.md`. A minimal `AGENT.md` also lives
+project (see *Planning* below for the full layout). This file, alongside a
+generic `AGENT.md` template, ships from the `DevSpec` repository — the same
+shared repository, on its `main` branch, in every conforming project,
+mounted either directly or nested one level inside an `.agentSpec` shell
+(see *Planning* for both). Document style (`DOCSTYLE.md`) and the `docs/`
+corpus convention (`DocSpecs.md`) ship together from a separate `DocSpec`
+repository — a project's document-writing conventions are one skill, not
+folded into this one. A minimal `AGENT.md` also lives
 at the project root itself; its only job is to state the reading order for
 an agent onboarding to the project — e.g. the project's own
 command/build-and-test reference first, then `.localSpec/` and `.agentSpec/`
@@ -185,11 +188,17 @@ active plans are always easy to identify.
   of a repository dedicated to that purpose, on a branch named after the
   project. That repository's `main` branch carries nothing project-specific;
   it exists only so the mount resolves before a project branch does.
-- **The generic references** live in `.agentSpec/`, a mount of the same
-  shared repository in every conforming project, on its `main` branch. It
-  carries `TICKETLIFECYCLE.md` directly, and mounts the `DevSpec`
-  repository at `.agentSpec/DevSpec/` for this file, `DOCSTYLE.md`, and a
-  template `AGENT.md` to copy from.
+- **The generic references** are shared across every conforming project,
+  each on its own `main` branch, and mount one of two ways. Bundled: a
+  project mounts `.agentSpec/`, which carries `TICKETLIFECYCLE.md`
+  directly and nests the `DevSpec` repository at `.agentSpec/DevSpec/`
+  for this file and a template `AGENT.md` to copy from — the document
+  style convention (`DOCSTYLE.md`) ships separately, from `DocSpec`,
+  either way. Direct: a project mounts `.ticketing` (ticket lifecycle)
+  and `DevSpec` (this file, the template `AGENT.md`) as two independent
+  repositories, without `.agentSpec` as a shell around either. Both
+  resolve to the same content; a project picks one and states it in its
+  own spec.
 - **Archival**: once a ticket is complete, it moves to
   `AgentSpec/archive/<YYYYMMDD>_<name>.md`. The archive-date filename prefix
   stands in for an in-body timestamp, so an already-archived ticket does not
@@ -237,8 +246,10 @@ Every project must ship end-user documentation alongside the source code.
     command, and configuration option. Internal implementation details are
     explicitly out of scope.
 - The structure, style, and conventions for the `docs/` LaTeX project are
-  defined in `docs/DocSpec/DocSpecs.md` (project-agnostic) together with any
-  project-specific additions in `.localSpec/AdditionalSpecs.md`. This
-  information is accessible through `docs/AGENT.md`.
+  defined in `DocSpecs.md`, in the `DocSpec` repository (project-agnostic —
+  either nested inside `docs/` or mounted directly, per that repository's
+  own README) together with any project-specific additions in
+  `.localSpec/AdditionalSpecs.md`. This information is accessible through
+  `docs/AGENT.md`.
 - Documentation must be updated in the same PR as the code change that
   introduces or modifies a user-facing feature.
