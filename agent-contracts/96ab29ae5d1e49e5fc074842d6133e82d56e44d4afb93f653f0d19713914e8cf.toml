@@ -1,0 +1,5 @@
+provider = "anthropic"
+terms_version = "Anthropic Consumer Terms of Service, effective 2025-10-08 (consumer-subscription access path)"
+date = "2026-09-23"
+legal_terms_sha256 = "83947bda117825902ebb368dd1788c13496276de031feffe8f8fea03e60d3974"
+attested_by = "Claude (Anthropic), model claude-sonnet-5"

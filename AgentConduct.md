@@ -22,7 +22,9 @@ it is the fix.
 **What you will find.** §1 the before-committing checklist, as a shape a
 project fills in. §2 the commit-message rule, in full — this one has no
 project-specific half. §3 attribution: crediting AI assistance without
-co-signing it.
+co-signing it. §4 the pair rule: implementing a ticket takes a worker and
+an independent orchestrator, and why that split is the same one §1.3
+already draws for a version bump.
 
 **Who it is for.** Anyone — human or agent — finishing a change in a
 project that declares conformity to DevSpecs. A project's own `CLAUDE.md`
@@ -40,6 +42,7 @@ graph TD
     AC --> CL["§1 checklist shape"]
     AC --> CM["§2 commit-message rule"]
     AC --> AT["§3 attribution"]
+    AC --> PR["§4 pair rule"]
     STYLE["DOCSTYLE.md"] -->|"the finishing-report bar,<br/>the same discipline applied to prose"| AC
 
     classDef here fill:#1565C0,color:#fff,stroke:#111,stroke-width:2px;
@@ -112,7 +115,7 @@ Three lines at most.**
   write a variant per repository.
 - **Plain English.** Say what the change does for the person using the
   project, in words they would use. This is a deliberate tightening of
-  [DOCSTYLE.md](DOCSTYLE.md) §5, which exempts commit messages generally —
+  [DOCSTYLE.md](../documentation/DOCSTYLE.md) §5, which exempts commit messages generally —
   here they are not exempt. The reader is somebody scanning `git log`
   months later, not somebody holding the diff.
 - **Three lines at most.** The whole message, not three paragraphs and not
@@ -171,3 +174,41 @@ A project's own `AdditionalSpecs.md` or planning surface says where its
 own accounting record lives and what fields it carries; this file states
 only that the two rules are separate and neither substitutes for the
 other.
+
+## 4. The pair rule — worker and orchestrator
+
+**Implementing a ticket takes at least two agents.** One implements; a
+second, independent one quotes the work and writes the record of what
+happened. The worker never scores itself.
+
+| Role | Does |
+|---|---|
+| **Worker** | Implements the ticket |
+| **Orchestrator** | Quotes the work against the project's own conformity criteria, writes the record, and makes the release judgement calls that follow from it — see §1.3 |
+
+**Why the same role does both.** §1.3 already puts the version-bump
+judgement — MAJOR vs. MINOR vs. PATCH — in the hands of "a reader who can
+tell a renamed flag from a new one." That is a conformity judgement, the
+same kind this rule asks the orchestrator to make about the ticket as a
+whole. Splitting the two across different agents would ask one to judge
+the diff and a different one to judge what the diff did to the public
+contract, with no reason for the two verdicts to agree.
+
+**What "independent" must mean, minimally.** The orchestrator is not the
+process that did the work. It reads the diff, the ticket, and the checks,
+and forms its own view — it does not accept the worker's account of what
+happened as fact. That account is a claim; testing it is the whole job.
+
+**What this is not.** Not a third-party audit. The orchestrator is another
+agent, commissioned by the same person, often from the same provider and
+the same model family as the worker. The split removes the *direct*
+conflict of interest — an agent scoring its own work — which is the one
+that would make a conformity score worthless. It does not remove
+correlated blind spots between two instances of a similar model, and a
+project should not claim more independence than that.
+
+**Scope.** The rule governs *implementing* a ticket. Drafting, ranking,
+and closing tickets is orchestration work already, and does not call for a
+second orchestrator to quote the first. A project stating this rule in its
+own `CLAUDE.md` should say so explicitly, or it reads as requiring two
+agents to file a one-line short ticket.
