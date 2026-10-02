@@ -56,6 +56,39 @@ Each project is a single, self-contained deliverable.
 - All entry-points share the same underlying implementation with no hidden
   forks.
 
+## CLI Grammar
+
+When a project ships a command-line tool, every command follows one grammar,
+so a user who knows one command can spell the next:
+
+```text
+<tool> <command> [<subcommand>] [<argument>…] [--option[ <value>] …]
+```
+
+1. **A subcommand is a plain word.** It never starts with `-`. It names
+   *which* action runs (`branch list`, `memory show`).
+2. **An option starts with `--` and changes *how* an action runs, never
+   *which* action.** Scope, output format, preview, safety and inputs are
+   options. The test: if a flag changes what kind of result the command
+   gives (creating instead of listing, writing instead of reporting), it is
+   a subcommand, not an option.
+3. **`-x` is only the short form of a `--option`**, such as `-m` for
+   `--message` and `-h` for `--help`. No option exists in short form alone.
+4. **A hyphen joins the words of one name** (`as-of`, `freeze-release`). It
+   never glues a command to its subcommand or option: when either word of a
+   hyphenated name is itself a command, the name is spelled as that command
+   followed by a subcommand or an option (`close-branch` is `branch close`,
+   `pull-force` is `pull --force`).
+5. **A command either has subcommands or acts itself, never both.** A
+   command with subcommands takes no argument of its own, and run without
+   one it refuses and lists them.
+6. **One option name means one thing** across the tool.
+
+Rules 1, 3, 4 and 5 can be checked mechanically against the tool's own
+parser, and a conforming project keeps a test that does. Rule 2 is a
+judgement, made when a command is designed or reviewed. A project's own
+spec records any exception it rules, with its reason.
+
 ## Lifecycle Implementation
 
 Every stateful managed object progresses through a well-defined set of
