@@ -4,27 +4,34 @@
 
 This file captures the owner's reusable, project-agnostic development
 principles. Every project that declares conformity to **DevSpecs** must follow
-every section below. Project-specific refinements and additional constraints
-belong in a separate `AdditionalSpecs.md`, kept together with this project's
-own agent roster (`AGENT.md`) and audit findings (`audit.md`) in a
-`.localSpec/` mount at the project root — one repository, one branch per
-project (see *Planning* below for the full layout). This file, alongside a
-generic `AGENT.md` template, ships from the `DevSpec` repository — the same
-shared repository, on its `main` branch, in every conforming project,
-mounted either directly or nested one level inside an `.agentSpec` shell
-(see *Planning* for both). Document style (`DOCSTYLE.md`) and the `docs/`
-corpus convention (`DocSpecs.md`) ship together from a separate `DocSpec`
-repository — a project's document-writing conventions are one skill, not
-folded into this one. A minimal `AGENT.md` also lives
-at the project root itself; its only job is to state the reading order for
-an agent onboarding to the project — e.g. the project's own
-command/build-and-test reference first, then `.localSpec/` and `.agentSpec/`
-for everything else. Keeping it minimal avoids duplicating content that
-belongs in `.localSpec/AGENT.md` (the parallel-agent orchestration roster,
-filled in from the `.agentSpec/DevSpec/AGENT.md` template — see *Planning*),
-`.localSpec/AdditionalSpecs.md` (architecture and project-specific technical
-rules), or `.localSpec/audit.md` (audit findings, legacy references, and
-open decisions/risks).
+every section below.
+
+**Every agentic topic is written at two levels.** A *pattern* states the
+general rule, once, in a shared repository. A *fill-in* in the project's own
+repository states only what the pattern leaves open: the choice the project
+made, its own commands, paths and branches, and any exception it rules with a
+date. This file is the first pattern; the project's own refinements and
+additional constraints belong in its `AdditionalSpecs.md`, which fills it in.
+The layout, the `Fills in` line that links a fill-in to its pattern, the
+digest and the check that keeps them honest are in [SpecTree.md](SpecTree.md).
+
+The shared repositories ship on their own `main` branch, the same in every
+conforming project, and are mounted under `.agent/.distant/`:
+
+- **dev-sync** (`DevSpec`): this file, `AgentConduct.md`,
+  [Versioning.md](Versioning.md), [SpecTree.md](SpecTree.md), the data
+  contract, and a generic `AGENT.md` template.
+- **ticket** (`.ticketing`): the planning-ticket lifecycle.
+- **documentation** (`DocSpec`): `DOCSTYLE.md`, the document style, and
+  `DocSpecs.md`, the `docs/` corpus convention.
+
+The project's own repositories are mounted under `.agent/.local/`, on a
+branch named after the project: its session entry (`CLAUDE.md`), its deeper
+specs (`AdditionalSpecs.md`, its filled-in `AGENT.md`, its audit findings),
+and the way it does its work (its checklist, its versioning, its tickets).
+A minimal `AGENT.md` also sits at the project root, as a link into the
+session-entry mount; its only job is to state the reading order for an agent
+onboarding to the project, and it carries no rules of its own.
 
 ---
 
@@ -95,7 +102,7 @@ Every stateful managed object progresses through a well-defined set of
 lifecycle states.
 
 - Lifecycle states and their valid transitions must be documented per project
-  in `.localSpec/AdditionalSpecs.md`.
+  in the project's `AdditionalSpecs.md`.
 - Transitions must be explicit, validated, and logged.
 - Bootstrapping operations must produce a fully initialised object or fail
   explicitly — partial success is not acceptable.
@@ -104,38 +111,13 @@ lifecycle states.
 
 ## Versioning
 
-The authoritative version is kept in the project's packaging manifest
-(e.g. `pyproject.toml`). Two schemes are both conforming — `YYYY.XX`
-calendar versioning (`XX` incrementing 01 → 99 per year, then `YYYY`
-incrementing and `XX` resetting to `01`, e.g. `0000.99 → 0001.01`) and real
-SemVer (`MAJOR.MINOR.PATCH`) against a stated public-interface contract —
-and a project states in its own `AdditionalSpecs.md` which one it follows
-and why. A project publishing a package under a stability promise (a
-`MAJOR` bump means a break, a `MINOR` bump is additive-only) wants SemVer;
-a project with no such promise, or one still finding its interface, may
-prefer the calendar scheme's simplicity.
-
-Projects that also mirror the version into other manifests/docs (e.g. a
-`pixi.toml` workspace version, a package `__version__`, a README heading)
-should provide a single dev command that bumps the reference manifest and
-syncs the rest in one step, rather than editing each file by hand, all
-targets or none — a bump that reaches half its targets leaves the package
-claiming a release its documentation never heard of.
-
-**A version bump is a judgement call, not a mechanical one — CI verifies,
-it does not decide.** [AgentConduct.md](AgentConduct.md) §1.3 states this
-as part of the general before-committing shape: deciding a release is due,
-and what kind, needs a reader who can tell "a flag was renamed" from "a
-flag was added," which is exactly what a diff cannot say on its own. CI
-running with write credentials and a standing `PAT` to push its own
-version-bump commits is one way to automate the *mechanical* half of this
-— syncing a value across files — but it is the wrong place to make the
-*judgement* half, and a project is not conforming merely because it has
-automated the bump; it is conforming because a reader made the call. A
-project that also tracks a separate, purely mechanical build or change
-counter (one that advances with every change, not only a release) may let
-that counter advance without a reader's judgement, precisely because it
-carries no promise a diff could get wrong.
+The authoritative version is kept in the project's packaging manifest.
+Two schemes conform: calendar `YYYY.XX` and real SemVer, and a project states
+in its own fill-in which one it follows and why. A version bump is a
+judgement call made by a reader, never by CI. Every build is released, `patch`
+at least, and a project that mirrors the version into other files provides one
+command that bumps them all or none. The rule in full, with who bumps what and
+in which order, is [Versioning.md](Versioning.md).
 
 ## Python Environment and Package Management
 
@@ -209,46 +191,51 @@ Logging is mandatory and first-class.
 
 ## Planning
 
-Planning documents follow a defined lifecycle so that history is preserved and
-active plans are always easy to identify.
+Planning documents follow a defined lifecycle so that history is preserved
+and active plans are always easy to identify. The lifecycle, the naming of
+tickets, the owner's short tickets and the loop that turns them into plans
+are all in the ticket repository's `TICKETLIFECYCLE.md`.
 
-- **Active plan**: planning tickets live in an `AgentSpec/` directory at the
-  project root, tracked directly by the consuming project's own
-  repository — one file per initiative (e.g. `<Name>_DevPlanTicket.md`), not
-  a single pair overwritten on every re-plan.
-- **The project's own deeper references** — `AdditionalSpecs.md`,
-  `audit.md`, and its filled-in `AGENT.md` — live in `.localSpec/`, a mount
-  of a repository dedicated to that purpose, on a branch named after the
+- **Active plans** are one file per initiative, not a single pair
+  overwritten on every re-plan. They live in the project's private
+  `DevTickets/` directory, inside one of its own `.agent/.local/` mounts.
+  Where exactly is the project's fill-in to say.
+- **The project's deeper references** (`AdditionalSpecs.md`, `audit.md`, its
+  filled-in `AGENT.md`) live in its spec mount, on a branch named after the
   project. That repository's `main` branch carries nothing project-specific;
   it exists only so the mount resolves before a project branch does.
-- **The generic references** are shared across every conforming project,
-  each on its own `main` branch, and mount one of two ways. Bundled: a
-  project mounts `.agentSpec/`, which carries `TICKETLIFECYCLE.md`
-  directly and nests the `DevSpec` repository at `.agentSpec/DevSpec/`
-  for this file and a template `AGENT.md` to copy from — the document
-  style convention (`DOCSTYLE.md`) ships separately, from `DocSpec`,
-  either way. Direct: a project mounts `.ticketing` (ticket lifecycle)
-  and `DevSpec` (this file, the template `AGENT.md`) as two independent
-  repositories, without `.agentSpec` as a shell around either. Both
-  resolve to the same content; a project picks one and states it in its
-  own spec.
-- **Archival**: once a ticket is complete, it moves to
-  `AgentSpec/archive/<YYYYMMDD>_<name>.md`. The archive-date filename prefix
-  stands in for an in-body timestamp, so an already-archived ticket does not
-  also carry a `Created:` line. Developers decide which archived files to
-  keep on explicit request.
 - No planning document is ever hand-edited during an active implementation
   run; it is treated as read-only once the agent starts executing it.
-- **Locality**: `AgentSpec/` (active and archived alike) is local to the
-  consuming project's own repository. It is never part of the shared
-  `DevSpec` repository this file ships from, nor of the `.agentSpec` shell
-  around it — a project's planning history is project-specific, and syncing
-  it back would leak one project's tickets into every other project that
-  mounts them. A project that mounts `.agentSpec` keeps `AgentSpec/` as an
-  ordinary tracked directory of its own, outside the mount; both `DevSpec`'s
-  and `.agentSpec`'s own `.gitignore` should still exclude ticket-shaped
-  paths (`AgentSpec/`, `*_DevPlanTicket.md`) as a second line of defense
-  against one getting staged inside either mount by mistake.
+- **Locality.** `DevTickets/`, active and archived alike, is private to the
+  project. It is never part of a shared repository, nor of the project's
+  public one: a project's planning history is its own, and syncing it back
+  would leak one project's tickets into every project that mounts the shared
+  repositories. Each shared repository's `.gitignore` excludes
+  ticket-shaped paths (`DevTickets/`, `*_DevPlanTicket.md`) as a second line
+  of defence against one being staged inside it by mistake.
+
+## Two installs
+
+A project whose tree has private configuration (agentic specs, tickets,
+memory) keeps two install descriptions, written for the tool that manages the
+tree (for `cgitsync`, a `.cgs` file):
+
+- **`install.cgs`**, at the root of the public repository: the **user
+  install**. The project's own repositories (source and documentation) and
+  nothing that configures how it is developed. It mounts no private
+  repository.
+- **`<project-name>4dev.cgs`**, in a folder the project names (conventionally
+  `examples/`): the **developer install**. The same repositories, plus every
+  agentic mount under `.agent/` and the project's own memory.
+
+One installs the tool, the other installs the workshop. They are not
+duplicates, and the second is what the project manages its own working tree
+with, what CI reconstitutes, and what a new contributor bootstraps from. The
+split is the same one the tool draws between a project repository and the
+private repositories that configure it, and between the project's source and
+its memory. Where a spec file sits never changes the tree it describes: the
+root of the tree is resolved from the workspace location and the project
+name, not from the file's folder.
 
 ## Document Conventions
 
@@ -282,7 +269,7 @@ Every project must ship end-user documentation alongside the source code.
   defined in `DocSpecs.md`, in the `DocSpec` repository (project-agnostic —
   either nested inside `docs/` or mounted directly, per that repository's
   own README) together with any project-specific additions in
-  `.localSpec/AdditionalSpecs.md`. This information is accessible through
+  the project's `AdditionalSpecs.md`. This information is accessible through
   `docs/AGENT.md`.
 - Documentation must be updated in the same PR as the code change that
   introduces or modifies a user-facing feature.

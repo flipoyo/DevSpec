@@ -1,7 +1,6 @@
 # DevSpecs.md's Planning section (Locality) requires a consuming project's
-# planning tickets to stay local to that project's own repository, never
-# synced back here. This is a second line of defense in case a contributor
-# ever runs project tooling from inside a ./DevSpec/ submodule checkout by
-# mistake.
-AgentSpec/
+# planning tickets to stay private to that project, never synced back here.
+# This is a second line of defense in case a contributor ever stages a ticket
+# inside a mounted copy of this repository by mistake.
+DevTickets/
 *_DevPlanTicket.md
