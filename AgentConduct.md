@@ -24,7 +24,8 @@ project fills in. §2 the commit-message rule, in full — this one has no
 project-specific half. §3 attribution: crediting AI assistance without
 co-signing it. §4 the pair rule: implementing a ticket takes a worker and
 an independent orchestrator, and why that split is the same one §1.3
-already draws for a version bump.
+already draws for a version bump; §4.1 what a project must state, as
+orders, for the rule to bind, and §4.2 how to gate it.
 
 **Who it is for.** Anyone — human or agent — finishing a change in a
 project that declares conformity to DevSpecs. A project's own `CLAUDE.md`
@@ -42,7 +43,7 @@ graph TD
     AC --> CL["§1 checklist shape"]
     AC --> CM["§2 commit-message rule"]
     AC --> AT["§3 attribution"]
-    AC --> PR["§4 pair rule"]
+    AC --> PR["§4 pair rule<br/>§4.1 trigger and orders · §4.2 gate"]
     STYLE["DOCSTYLE.md"] -->|"the finishing-report bar,<br/>the same discipline applied to prose"| AC
 
     classDef here fill:#1565C0,color:#fff,stroke:#111,stroke-width:2px;
@@ -212,3 +213,46 @@ and closing tickets is orchestration work already, and does not call for a
 second orchestrator to quote the first. A project stating this rule in its
 own `CLAUDE.md` should say so explicitly, or it reads as requiring two
 agents to file a one-line short ticket.
+
+### 4.1 Stating the rule so it binds
+
+A project that adopts the pair rule **must** state the following in the
+file its agents load at the start of every session, **as orders**, not as a
+description of what implementing involves:
+
+1. **The trigger.** The owner asking to implement a ticket is the explicit
+   request to launch the orchestrator, with the tool the project's coding
+   harness provides for launching another agent. It needs no further
+   permission. The project names that tool; this pattern does not, because
+   tools differ between harnesses and change their names.
+2. **The owner's decisions come first.** Every open decision a ticket
+   leaves to the owner is asked before the first edit. A recommendation is
+   never the answer.
+3. **What the worker never does.** It never makes the release-version
+   judgement (§1.3), never writes the record, and never scores its own
+   work.
+4. **The loop.** The orchestrator quotes; the worker fixes every defect;
+   the same orchestrator quotes again, until nothing blocking is left.
+5. **The end.** Only then is the ticket closed and the commit message (§2)
+   delivered.
+
+**Why orders.** A coding harness usually carries its own instruction, given
+as an order, not to launch other agents unless the user explicitly asks. A
+rule written as a description ("implementing a ticket takes two agents")
+does not visibly contradict that order, so the order wins and the agent
+works alone. Stating that the owner's request *is* the explicit request
+removes the conflict instead of hoping it is resolved the right way. A
+rule that was written, cited and read every session was still broken;
+rewriting it as orders is the fix.
+
+### 4.2 Gating it
+
+A project whose tooling allows it **should** refuse to close a ticket that
+has no orchestrator's record, at the moment the work is handed over: a
+commit, a merge, or a check run before either. A rule that costs nothing
+to break at that moment gets broken even when it is read.
+
+Such a gate **cannot prove** that the two agents were really separate: one
+agent can write a record that names two roles. It turns "forgot" into
+"refused" and nothing more. A project must not claim more for it (see
+*What this is not*, above).

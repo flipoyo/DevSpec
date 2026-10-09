@@ -29,7 +29,8 @@ repositories beside this one: `.ticketing` at `.agent/.distant/ticket` and
   project's own spec mount and narrow it to that project's real scope.
 - **`AgentConduct.md`** — the checklist shape, commit-message rule,
   attribution, and the worker/orchestrator pair rule every conforming
-  project shares.
+  project shares, with what a project must state, as orders, for it to
+  bind (the owner's request is the trigger) and how to gate it.
 - **`AgentDataContract.md`** — whose data an agent's work belongs to, what
   an agentProvider may do with it, and — the part to read first — exactly
   what a document like this one can and cannot deliver on its own.

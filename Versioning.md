@@ -114,7 +114,7 @@ fix, and every fix should be a release a reader can name.
 
 | Who | Does |
 |---|---|
-| **Worker**, the agent changing the code | Bumps the build counter, as part of the change. Then bumps the release version at `patch` when no orchestrator quotes the work. |
+| **Worker**, the agent changing the code | Bumps the build counter, as part of the change. Then bumps the release version at `patch` when no orchestrator quotes the work, which is never the case when a ticket is implemented ([AgentConduct.md](AgentConduct.md) §4.1). |
 | **Orchestrator**, independent, quotes the work | Decides `MAJOR`, `MINOR` or `PATCH` (never below `PATCH` when the build moved), runs the bump, tags, and writes the release row (§7). |
 | **CI** | Verifies. Never writes a version. |
 
@@ -142,8 +142,11 @@ got wrong before this was written down:
   `3.14.0`".
 - **No orchestrator does not mean no bump.** When the owner asks for a fix
   directly and nobody quotes it, the worker runs the `patch` bump, the
-  floor. If the change adds a command or a flag, it deserves `minor`. The
-  worker says so in its report instead of deciding it alone.
+  floor. This never covers implementing a ticket: that always has an
+  orchestrator, and the release bump is always the orchestrator's
+  ([AgentConduct.md](AgentConduct.md) §4.1). If the change adds a
+  command or a flag, it deserves `minor`. The worker says so in its
+  report instead of deciding it alone.
 - **"Patch" from the owner means this rule.** It means the build bump and
   then the `patch` release bump. It never means "amend the version that is
   already there".
