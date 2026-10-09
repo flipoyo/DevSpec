@@ -100,16 +100,18 @@ does not carry to the next command, the next task, or the next session.
 
 ## 2. The commit-message rule
 
-**Starts with `<project-name><version>`. One message. Plain English.
+**Starts with `<project-name>-<version>`. One message. Plain English.
 Three lines at most.**
 
-- **Starts with `<project-name><version>`.** The project's own name,
-  immediately followed by its packaging manifest's current version, no
-  space and no `v` (`widget3.1.0`, never `widget 3.1.0` or `widget
-  v3.1.0`). Bump the version (§1.3) before writing the message, so the
-  version it reads is current. This is what lets a reader scanning `git
-  log` tell which release a change shipped in without cross-referencing
-  anything else.
+- **Starts with `<project-name>-<version>`.** The project's own name,
+  one dash, then its packaging manifest's current version, no space and no
+  `v` (`widget-3.1.0`, never `widget3.1.0`, `widget 3.1.0` or `widget
+  v3.1.0`). The dash is for the reader: a name that ends in a digit stays
+  readable (`lib2-1.0.0`), and a project that tags its releases the same
+  way reads alike in `git log` and `git tag`. Bump the version (§1.3)
+  before writing the message, so the version it reads is current. This is
+  what lets a reader scanning `git log` tell which release a change
+  shipped in without cross-referencing anything else.
 - **One message.** Write the *same* message for every repository the
   change touched — a project repository and the configuration repository
   that goes with it are two halves of one story, not two stories. Do not

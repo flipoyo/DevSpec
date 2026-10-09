@@ -81,7 +81,7 @@ so a user who knows one command can spell the next:
    a subcommand, not an option.
 3. **`-x` is only the short form of a `--option`**, such as `-m` for
    `--message` and `-h` for `--help`. No option exists in short form alone.
-4. **A hyphen joins the words of one name** (`as-of`, `freeze-release`). It
+4. **A hyphen joins the words of one name** (`as-of`, ...). It
    never glues a command to its subcommand or option: when either word of a
    hyphenated name is itself a command, the name is spelled as that command
    followed by a subcommand or an option (`close-branch` is `branch close`,
