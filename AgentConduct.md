@@ -81,12 +81,13 @@ commits seriously.
    or change counter that *does* advance automatically with every change;
    the judgement call is specifically about what the release itself
    promises, not about every counter a project keeps.
-4. **Deliver a commit message (§2) for every repository the change
-   touched**, as text in the report that closes the work — the project's
-   own repository and each mounted configuration repository that changed,
-   each a separate Git repository with its own message. A reader who was
-   away from the work should be able to read the message and know what
-   landed, without opening the diff.
+4. **Deliver one commit message (§2), and use it unchanged in every
+   repository the change touched**, as text in the report that closes the
+   work — the project's own repository and each mounted configuration
+   repository that changed. They commit separately, but they carry the
+   same message: not one message per repository, and not a variant
+   worded for each. A reader who was away from the work should be able to
+   read it and know what landed, without opening the diff.
 
 **Whether to commit, and whether to push, are the owner's call, made
 separately, every time.** Deliver the message and stop; committing and
