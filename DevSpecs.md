@@ -224,9 +224,14 @@ tree (for `cgitsync`, a `.cgs` file):
   install**. The project's own repositories (source and documentation) and
   nothing that configures how it is developed. It mounts no private
   repository.
-- **`<project-name>4dev.cgs`**, in a folder the project names (conventionally
-  `examples/`): the **developer install**. The same repositories, plus every
-  agentic mount under `.agent/` and the project's own memory.
+- **The developer install**, a file in a folder the project names
+  (conventionally `examples/`). The same repositories, plus every agentic
+  mount under `.agent/` and the project's own memory. Its name is the
+  project's choice, stated in its fill-in: `<project-name>4dev.cgs` is the
+  conventional one, and a project whose levels share one branch, so that no
+  file stands for a level, may name it for that series instead
+  (`<project-name>-alpha.cgs`). It is never named after a level
+  (`-dev`, `-opx`, `-usr`, `-pub`) the tool would read as a branch.
 
 One installs the tool, the other installs the workshop. They are not
 duplicates, and the second is what the project manages its own working tree

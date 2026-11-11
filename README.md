@@ -19,7 +19,7 @@ repositories beside this one: `.ticketing` at `.agent/.distant/ticket` and
 
 - **`DevSpecs.md`** — the philosophy itself; every conforming project follows it.
   It includes the two-level rule, the planning rules and the two installs
-  (`install.cgs` and `<project-name>4dev.cgs`).
+  (`install.cgs` and `<project-name>4dev.cgs` or the file its fill-in names).
 - **`Versioning.md`** — how a project numbers what it releases: the choice of
   scheme, the two numbers, who bumps what, in which order.
 - **`SpecTree.md`** — the mount layout, the `Fills in` line, the digest, the
